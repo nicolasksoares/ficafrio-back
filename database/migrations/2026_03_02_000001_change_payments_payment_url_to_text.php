@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -11,12 +12,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $driver = DB::getDriverName();
-        if ($driver === 'pgsql') {
-            DB::statement('ALTER TABLE payments ALTER COLUMN payment_url TYPE TEXT');
-        } else {
-            DB::statement('ALTER TABLE payments MODIFY payment_url TEXT NULL');
-        }
+        Schema::table('payments', function (Blueprint $table) {
+            $table->text('payment_url')->nullable()->change();
+        });
     }
 
     /**
@@ -24,11 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        $driver = DB::getDriverName();
-        if ($driver === 'pgsql') {
-            DB::statement('ALTER TABLE payments ALTER COLUMN payment_url TYPE VARCHAR(255)');
-        } else {
-            DB::statement('ALTER TABLE payments MODIFY payment_url VARCHAR(255) NULL');
-        }
+        Schema::table('payments', function (Blueprint $table) {
+            $table->string('payment_url', 255)->nullable()->change();
+        });
     }
 };
