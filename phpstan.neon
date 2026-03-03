@@ -1,0 +1,17 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    paths:
+        - app/
+
+    # Nível de rigor (0-9). O 5 verifica tipos de argumentos e retornos.
+    level: 5
+
+    # Otimização para não scanear arquivos desnecessários
+    excludePaths:
+        - ./*/*/FileToBeExcluded.php
+        
+    # Ignorar erros específicos se necessário (use com sabedoria)
+    # ignoreErrors:
+    #     - '#Unsafe usage of new static#'
